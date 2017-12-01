@@ -1,1 +1,1 @@
-# bass_drum_pattern_archive
+# Awesome hackday project
