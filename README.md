@@ -1,5 +1,7 @@
 # Drum-Groove extraction
 
+We did a hackday at IDMT yesterday. This is what I did so far ...
+
 ## Steps
 
 ### Exploration
@@ -18,6 +20,9 @@
 
 ![alt text](doc/patterns.png "Here's a collection of the most 40 most frequent patterns")
 
+- Some weird patterns (16th note sequences)
+- Proof-of-concept as we observe many cliché patterns (also as shifted versions)
+- patterns need at least 8 notes (all others are filtered out beforehand)
 
 ### Generation
 
@@ -27,7 +32,20 @@
 
 ![alt text](doc/patterns_prediction.png "Here's a collection of the most 40 most frequent patterns")
 
+### Future steps / ideas
 
+- t-SNE visualization of patterns connected with audio playback (like this here:
+https://experiments.withgoogle.com/ai/drum-machine)
+- train a DC-GAN for generation (this should also cope with the cyclic shifts in the patterns)
+- encode bass track as well
+  - harmony estimation per bar from other instrument tracks
+  - encode pitches as chordal diatonic pitch class
+- use different grid that includes triple tatums (e.g. 48)
+- or: estimate local tatum per beat (like Frieler's Flex-Q algorithm)
+- improve RNN
+  - check word-2-vec (Karpathy)
+  - check negative sampling
+- use embeddings to avoid one-hot-encoding with > 1000 classes
 
 
 
