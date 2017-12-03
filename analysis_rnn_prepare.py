@@ -13,7 +13,7 @@ if __name__ == '__main__':
     dir_out = os.path.join(dir_data, '_all')
     Q = 16
 
-    fn_all = os.path.join(dir_out, 'all_patterns')
+    fn_all = os.path.join(dir_out, 'all_patterns_stacked')
 
     fn_list = glob.glob(os.path.join(dir_data, '*'))
 
@@ -22,6 +22,7 @@ if __name__ == '__main__':
     all_patterns = {}
     MIN = 8
     num_files = len(fn_list)
+    all_patterns = []
     for f, fn in enumerate(fn_list):
         if f % 10 == 0:
             print('File {}/{}'.format(f+1, num_files))
@@ -41,22 +42,13 @@ if __name__ == '__main__':
             drum_score_bin = np.hstack((drum_score_bin, np.zeros((3, new_width-width), dtype=bool)))
             d = np.reshape(drum_score_bin, (16*3, int(new_width/16)))
             encoded = np.dot(a, d)
-            un = np.unique(encoded)
-            for i, val in enumerate(un):
-                if np.sum(d[:, i]) >= MIN:
-                    N = np.sum(encoded == val)
-                    if N > 1:
-                        try:
-                            all_patterns[val] += N
-                        except:
-                            all_patterns[val] = N
-                else:
-                    pass
+            all_patterns.append(encoded)
         except:
             pass
 
+    all_patterns = np.concatenate(all_patterns)
+    print('{} subsequent patterns '.format(len(all_patterns)))
+    np.save(fn_all, all_patterns)
     with open(fn_all, 'wb+') as fh:
         pickle.dump(all_patterns, fh)
 
-    for v in all_patterns.keys():
-        print(np.sum(num_to_pat([v])))

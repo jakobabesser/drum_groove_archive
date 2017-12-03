@@ -109,6 +109,8 @@ class Importer:
                     pitch = []
                     onset = []
                     for bar, measure in enumerate(track.measures):
+                        if bar == 0: # todo try
+                            continue
                         for voice in measure.voices:
                             # Tempo
                             if files[f]['tempo_gp'] is None:
